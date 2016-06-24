@@ -18,9 +18,9 @@ namespace PoetryEngine {
         public static List<char> punc = new List<char> { '.', ',', ';', '?', '!'};
 
         public static Dictionary<Word, double> used = new Dictionary<Word, double>();
-        public static List<Tuple<Word, GrammerRuleType[]>> history = new List<Tuple<Word, GrammerRuleType[]>>();
+        public static HistoryKeeper<Tuple<Word, GrammerRuleType[]>> history = new HistoryKeeper<Tuple<Word, GrammerRuleType[]>>();
         public static List<int> usedStructs = new List<int>();
-        private static int HistoryTraverser = 0;
+
         static Dictionary<string, Func<string, Tuple<Word, GrammerRuleType[]>>> funcMap = new Dictionary<string, Func<string, Tuple<Word, GrammerRuleType[]>>>
         {
             {"tn", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] { })},
@@ -63,15 +63,15 @@ namespace PoetryEngine {
 #endif
                 foreach(var part in structureParts) {
                     if(!string.IsNullOrWhiteSpace(part) && part[0] == '%') {
-                        history.Add(funcMap[part.Substring(1)](""));
+                        history.AddHistory(funcMap[part.Substring(1)](""));
                     }
                 }
 
                 for(int i = 0; i < structureParts.Count(); ++i) {
                     if(!string.IsNullOrWhiteSpace(structureParts[i]) && structureParts[i][0] == '%') {
-                        var currentWord = GetCurrentWord();
+                        var currentWord = history.GetCurrentElement();
                         poemB.Append(currentWord.Item1.GetWord(currentWord.Item2));
-                        TraverseHistory();
+                        history.TraverceCurrentElement();
                     } else
                         poemB.Append(structureParts[i]);
                     if(structureParts.Count() > i + 1 && !punc.Contains(structureParts[i + 1].Last())) {
@@ -79,8 +79,7 @@ namespace PoetryEngine {
                     }
                 }
 
-                HistoryTraverser = 0;
-                history.Clear();
+                history.ClearHistory();
                 poemB.AppendLine();
             }
             
@@ -107,33 +106,11 @@ namespace PoetryEngine {
         }
 
         public static Tuple<Word, GrammerRuleType[]> GetLastWordUsed() {
-            if(history.Any())
-                return history[HistoryTraverser - 1];
-            return null;
-        }
-
-        public static Tuple<Word, GrammerRuleType[]> GetCurrentWord() {
-            if(history.Any() && HistoryTraverser <= history.Count) {
-                return history[HistoryTraverser];
-            }
-            return null;
-        }
-
-        public static Tuple<Word, GrammerRuleType[]> TraverseHistory() {
-            if(history.Any() && HistoryTraverser <= history.Count) {
-                return history[HistoryTraverser++];
-            }
-            return null;
-        }
-
-        public static Tuple<Word, GrammerRuleType[]> GetNextWordToBeUsed() {
-            if(history.Any() && HistoryTraverser + 1 <= history.Count)
-                return history[HistoryTraverser + 1];
-            return null;
+            return history.GetPreviousElement();
         }
 
         public static void AddToHistory(Word word, GrammerRuleType[] rules) {
-            history.Add(new Tuple<Word, GrammerRuleType[]>(word, rules));
+            history.AddHistory(new Tuple<Word, GrammerRuleType[]>(word, rules));
         }
 
         public static async void Load() {
