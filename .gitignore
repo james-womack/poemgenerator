@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/PoetryGen/v14
+/Components
+/packages
+/PoetryGen/bin
+/PoetryGen/obj
