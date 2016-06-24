@@ -36,6 +36,9 @@ namespace PoetryEngine {
                     new Word("water", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
                             new GrammerRule() { Data = "waters", Type = GrammerRuleType.Pleral }
+                        },
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("cloud", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
@@ -43,7 +46,8 @@ namespace PoetryEngine {
                         } },
                     new Word("electricity", WordType.Object){
                         GrammerExeptions = new List<GrammerException> {
-                            new GrammerException() { Type = GrammerExceptionType.NoPleral }
+                            new GrammerException() { Type = GrammerExceptionType.NoPleral },
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("star", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
@@ -52,6 +56,9 @@ namespace PoetryEngine {
                     new Word("wind", WordType.Object) {
                         GrammerRules = new List<GrammerRule>() {
                             new GrammerRule() { Data = "winds" ,Type = GrammerRuleType.Pleral }
+                        },
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("tree", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
@@ -76,6 +83,9 @@ namespace PoetryEngine {
                     new Word("night", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
                             new GrammerRule() { Data = "nights", Type = GrammerRuleType.Pleral }
+                        },
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("child", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
@@ -92,6 +102,9 @@ namespace PoetryEngine {
                     new Word("blood", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
                             new GrammerRule() { Data = "drops of blood", Type = GrammerRuleType.Pleral }
+                        },
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("mind", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
@@ -99,7 +112,11 @@ namespace PoetryEngine {
                         } },
                     new Word("rain", WordType.Object) {
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "rain drops", Type = GrammerRuleType.Pleral } } },
+                            new GrammerRule() { Data = "rain drops", Type = GrammerRuleType.Pleral }
+                        },
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
+                        } },
                     new Word("field", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
                             new GrammerRule() { Data = "fields", Type = GrammerRuleType.Pleral }
@@ -252,11 +269,17 @@ namespace PoetryEngine {
                     new Word("canyon", WordType.Expance),
                     new Word("ocean", WordType.Expance),
                     new Word("galaxy", WordType.Expance),
-                    new Word("forrest", WordType.Expance),
-                    new Word("time", WordType.Expance),
+                    new Word("forest", WordType.Expance),
+                    new Word("time", WordType.Expance) {
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
+                        } },
                     new Word("abyss", WordType.Expance),
                     new Word("sky", WordType.Expance),
-                    new Word("air", WordType.Expance),
+                    new Word("air", WordType.Expance) {
+                        GrammerExeptions = new List<GrammerException>() {
+                            new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
+                        } },
                     new Word("timeless", WordType.Deepener),
                     new Word("fruitful", WordType.Deepener),
                     new Word("meaningless", WordType.Deepener),
@@ -341,7 +364,7 @@ namespace PoetryEngine {
                         } },
                     new Word("electric", WordType.Adjective) {
                         GrammerRules = new List<GrammerRule>() {
-                            new GrammerRule() { Data = "electrafingly", Type = GrammerRuleType.LY},
+                            new GrammerRule() { Data = "electricly", Type = GrammerRuleType.LY},
                         } },
                     new Word("distasteful", WordType.Adjective) {
                         GrammerRules = new List<GrammerRule>() {
