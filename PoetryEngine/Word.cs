@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PoetryEngine {
-    public class Word {
-
-        public string Base { get; set; }
-        public WordType Type { get; set; }
+    public class Word : PoemStructurePart {
+        
         public List<GrammerRule> GrammerRules { get; set; }
         public List<GrammerException> GrammerExeptions { get; set; }
 
@@ -46,7 +44,7 @@ namespace PoetryEngine {
                 pre += GetAnOrA() + " ";
 
             if(Rules.Contains(GrammerRuleType.Owning)) {
-                if(Rules.Contains(GrammerRuleType.Pleral))
+                if(Rules.Contains(GrammerRuleType.Plural))
                     post += "s'";
                 else
                     post += "'s";
@@ -56,31 +54,43 @@ namespace PoetryEngine {
                 word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.ER).Data;
             else if(Rules.Contains(GrammerRuleType.ING) && GrammerRules.Any(x => x.Type == GrammerRuleType.ING))
                 word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.ING).Data;
-            else if(Rules.Contains(GrammerRuleType.Pleral) && GrammerRules.Any(x => x.Type == GrammerRuleType.Pleral))
-                word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.Pleral).Data;
+            else if(Rules.Contains(GrammerRuleType.Plural) && GrammerRules.Any(x => x.Type == GrammerRuleType.Plural))
+                word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.Plural).Data;
             else if(Rules.Contains(GrammerRuleType.PastTense) && GrammerRules.Any(x => x.Type == GrammerRuleType.PastTense))
                 word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.PastTense).Data;
             else if(Rules.Contains(GrammerRuleType.FutureTense) && GrammerRules.Any(x => x.Type == GrammerRuleType.FutureTense))
                 word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.FutureTense).Data;
             else if(Rules.Contains(GrammerRuleType.LY) && GrammerRules.Any(x => x.Type == GrammerRuleType.LY))
                 word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.LY).Data;
-            else if(Rules.Contains(GrammerRuleType.ConsiderContext) && GrammerRules.Any(x => x.Type == GrammerRuleType.Pleral) 
+            else if(Rules.Contains(GrammerRuleType.ConsiderContext) && GrammerRules.Any(x => x.Type == GrammerRuleType.Plural) 
                 && Type == WordType.Transition && Generator.GetLastWordUsed() != null 
-                && Generator.GetLastWordUsed().Item2.Contains(GrammerRuleType.Pleral) 
+                && Generator.GetLastWordUsed().Item2.Contains(GrammerRuleType.Plural) 
                 && !Generator.GetLastWordUsed().Item1.GrammerExeptions.Any(a => a.Type == GrammerExceptionType.NoPleral))
-                word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.Pleral).Data;
+                word = GrammerRules.FirstOrDefault(x => x.Type == GrammerRuleType.Plural).Data;
 
             Generator.AddToHistory(this, Rules);
 
             return pre + word + post;
         }
 
-        public static bool operator ==(Word w1, Word w2){
+        public static bool operator ==(Word w1, Word w2) {
             return w1.Base == w2.Base;
         }
 
         public static bool operator !=(Word w1, Word w2) {
             return w1.Base != w2.Base;
+        }
+
+        public override bool Equals(Object o) {
+            if(o.GetType() == typeof(PoemStructurePart)) {
+                var n = o as PoemStructurePart;
+                return n == this;
+            }
+            return false;
+        }
+
+        public override int GetHashCode() {
+            return Type.GetHashCode() * Base.GetHashCode();
         }
     }
 
@@ -112,13 +122,14 @@ namespace PoetryEngine {
         Action,
         Amount,
         Pronoun,
-        Direction
+        Direction,
+        Word
     }
 
     public enum GrammerRuleType {
         ER,
         ING,
-        Pleral,
+        Plural,
         PreOwnership,
         AddAOrAn,
         Owning,

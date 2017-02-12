@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 using PCLStorage;
 
 namespace PoetryEngine {
-    class Generator {
+    public class Generator {
 
         private static string fileName = "structures.json";
         private static string folderName = "data";
         private static Random rand = new Random();
         private static PoemDictionary dic = new PoemDictionary();
-        private static List<string> structures;
+        private static List<PoemStructure> structures;
         public static List<char> punc = new List<char> { '.', ',', ';', '?', '!'};
 
         public static Dictionary<Word, double> used = new Dictionary<Word, double>();
@@ -25,9 +25,9 @@ namespace PoetryEngine {
         {
             {"tn", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] { })},
             {"tnc", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] {GrammerRuleType.ConsiderContext})},
-            {"tnp", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] {GrammerRuleType.Pleral})},
+            {"tnp", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] {GrammerRuleType.Plural})},
             {"tnf", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Transition)), new GrammerRuleType[] {GrammerRuleType.FutureTense})},
-            {"nnp", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Object)), new GrammerRuleType[] {GrammerRuleType.Pleral}) },
+            {"nnp", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Object)), new GrammerRuleType[] {GrammerRuleType.Plural}) },
             {"nn", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Object)), new GrammerRuleType[] { })},
             {"nna", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Object)), new GrammerRuleType[] { GrammerRuleType.AddAOrAn})},
             {"pr", s => new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(WordType.Prepasition)), new GrammerRuleType[] { })},
@@ -54,27 +54,28 @@ namespace PoetryEngine {
             var poemB = new StringBuilder();
 
             for(int a = 0; a < amount; ++a) {
-                var structure = GetStructure();
 #if DEBUG
-                poemB.Append("s" + structure.Item2 + ": ");
-                var structureParts = structure.Item1.Split(null as char[]);
+                var structureparts = GetStructure();
+                poemB.Append("s" + structureparts.Item2 + ": ");
+                var structure = structureparts.Item1;
 #else
-                var structureParts = structure.Split(null as char[]);
+                var structure = GetStructure();
 #endif
-                foreach(var part in structureParts) {
-                    if(!string.IsNullOrWhiteSpace(part) && part[0] == '%') {
-                        history.AddHistory(funcMap[part.Substring(1)](""));
+
+                foreach(var part in structure.Parts) {
+                    if(part.Item1.Type != WordType.Word) {
+                        history.AddHistory(new Tuple<Word, GrammerRuleType[]>(PickRandomWithWeightFromUsed(dic.GetWordsOfType(part.Item1.Type)), part.Item2));
                     }
                 }
 
-                for(int i = 0; i < structureParts.Count(); ++i) {
-                    if(!string.IsNullOrWhiteSpace(structureParts[i]) && structureParts[i][0] == '%') {
+                for(int i = 0; i < structure.Parts.Count(); ++i) {
+                    if(structure.Parts[i].Item1.Type != WordType.Word) {
                         var currentWord = history.GetCurrentElement();
                         poemB.Append(currentWord.Item1.GetWord(currentWord.Item2));
                         history.TraverceCurrentElement();
                     } else
-                        poemB.Append(structureParts[i]);
-                    if(structureParts.Count() > i + 1 && !punc.Contains(structureParts[i + 1].Last())) {
+                        poemB.Append(structure.Parts[i].Item1.Base);
+                    if(structure.Parts.Count() > i + 1 && (structure.Parts[i + 1].Item1.Base == null || !punc.Contains(structure.Parts[i + 1].Item1.Base.Last()))) {
                         poemB.Append(" ");
                     }
                 }
@@ -97,7 +98,10 @@ namespace PoetryEngine {
             double r = rand.NextDouble() * total;
             foreach(var w in words) {
                 if(r <= used.FirstOrDefault(x => x.Key == w).Value) {
-                    used[w] *= 0.25;//TODO if weight isnt being set right this is why
+                    var temp = used.FirstOrDefault(x => x.Key == w).Value;
+                    temp *= 0.25;//TODO if weight isnt being set right this is why
+                    used.Remove(w);
+                    used.Add(w, temp);
                     return w;
                 }
                 r -= used.FirstOrDefault(x => x.Key == w).Value;
@@ -119,25 +123,26 @@ namespace PoetryEngine {
             IFolder folder = await rootFolder.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
             if((await folder.CheckExistsAsync(fileName)) == ExistenceCheckResult.FileExists) {
                 IFile file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-                structures = JsonConvert.DeserializeObject<List<string>>(await file.ReadAllTextAsync());
-            } else
-                structures = new List<string>() {
-                    "%nnp %tnc the %nnp %mvi %pr the %ep like the %dp %ep %pr the %epo %nn %ati the %nnp of %th .",
-                    "%nn %tn the %nnp %mvi %pr the %ad %ep like the %dp %ep %pr the %ep %ati the %nn of %th .",
-                    "the %nnp , the %nnp , and the %nnp %mvp %pr the %ad %ep and these %tnp the %nnp %ati %nnp and %ad %nnp . It %tn the %ep .",
-                    "%am %nnp %mvp %pr %ad %nnp .",
-                    "%am %nnp %mvp %dr as they could have %mvp .",
-                    "because it %tnf the %ad and %ad %nn .",
-                    "%mvi , %mva %nn %tn %dpa %nn %ati the %ad %nn .",
-                    "And %pn , the %nn , %pr %ad %nn .",
-                    "%nna %tn %nnp %mvi %pr %epa %adl ."
+                //structures = JsonConvert.DeserializeObject<List<string>>(await file.ReadAllTextAsync());
+            } else {
+                structures = new List<PoemStructure> {
+                    new PoemStructure("%nnp %tnc the %nnp %mvi %pr the %ep like the %dp %ep %pr the %epo %nn %ati the %nnp of %th ."),
+                    new PoemStructure("%nn %tn the %nnp %mvi %pr the %ad %ep like the %dp %ep %pr the %ep %ati the %nn of %th ."),
+                    new PoemStructure("the %nnp , the %nnp , and the %nnp %mvp %pr the %ad %ep and these %tnp the %nnp %ati %nnp and %ad %nnp . It %tn the %ep ."),
+                    new PoemStructure("%am %nnp %mvp %pr %ad %nnp ."),
+                    new PoemStructure("%am %nnp %mvp %dr as they could have %mvp ."),
+                    new PoemStructure("because it %tnf the %ad and %ad %nn ."),
+                    new PoemStructure("%mvi , %mva %nn %tn %dpa %nn %ati the %ad %nn ."),
+                    new PoemStructure("And %pn , the %nn , %pr %ad %nn ."),
+                    new PoemStructure("%nna %tn %nnp %mvi %pr %epa %adl .")
                 };
+            }
         }
 
 #if DEBUG
-        public static Tuple<string, int> GetStructure() {
+        public static Tuple<PoemStructure, int> GetStructure() {
 #else
-        public static string GetStructure() {
+        public static PoemStructure GetStructure() {
 #endif
             double[] weights = new double[structures.Count()];
             double total = 0.0D;
@@ -150,7 +155,7 @@ namespace PoetryEngine {
                 if(r < weights[i]) {
                     usedStructs.Add(i);
 #if DEBUG
-                    return new Tuple<string, int>(structures[i], i);
+                    return new Tuple<PoemStructure, int>(structures[i], i);
 #else
                     return structures[i];
 #endif
@@ -158,9 +163,9 @@ namespace PoetryEngine {
                 r -= weights[i];
             }
 #if DEBUG
-            return new Tuple<string, int>("%pn %tn %nn .", -1);
+            return new Tuple<PoemStructure, int>(new PoemStructure("%pn %tn %nn ."), -1);
 #else
-            return "%pn %tn %nn .";
+            return new PoemStructure("%pn %tn %nn .");
 #endif
         }
         

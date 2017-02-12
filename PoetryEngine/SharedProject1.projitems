@@ -12,7 +12,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extentions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Generator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HistoryKeeper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectCopier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PoemDictionary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PoemStructure.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Word.cs" />
   </ItemGroup>
 </Project>

@@ -7,3 +7,7 @@
 /packages
 /PoetryGen/bin
 /PoetryGen/obj
+/LinuxGen/bin
+/LinuxGen/obj
+/PoetryGen.VC.VC.opendb
+/PoetryGen.VC.db

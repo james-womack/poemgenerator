@@ -27,22 +27,22 @@ namespace PoetryEngine {
                 Words = new List<Word>() {
                     new Word("snow flake", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "snow flakes", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "snow flakes", Type = GrammerRuleType.Plural }
                         } },
                     new Word("sun", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "suns", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "suns", Type = GrammerRuleType.Plural }
                         } },
                     new Word("water", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "waters", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "waters", Type = GrammerRuleType.Plural }
                         },
                         GrammerExeptions = new List<GrammerException>() {
                             new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("cloud", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "clouds", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "clouds", Type = GrammerRuleType.Plural }
                         } },
                     new Word("electricity", WordType.Object){
                         GrammerExeptions = new List<GrammerException> {
@@ -51,79 +51,79 @@ namespace PoetryEngine {
                         } },
                     new Word("star", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "stars", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "stars", Type = GrammerRuleType.Plural }
                         } },
                     new Word("wind", WordType.Object) {
                         GrammerRules = new List<GrammerRule>() {
-                            new GrammerRule() { Data = "winds" ,Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "winds" ,Type = GrammerRuleType.Plural }
                         },
                         GrammerExeptions = new List<GrammerException>() {
                             new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("tree", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "trees", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "trees", Type = GrammerRuleType.Plural }
                         } },
                     new Word("leaf", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "leaves", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "leaves", Type = GrammerRuleType.Plural }
                         } },
                     new Word("mouse", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "mice", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "mice", Type = GrammerRuleType.Plural }
                         } },
                     new Word("puppy", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "puppies", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "puppies", Type = GrammerRuleType.Plural }
                         } },
                     new Word("moon", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "moons", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "moons", Type = GrammerRuleType.Plural }
                         } },
                     new Word("night", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "nights", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "nights", Type = GrammerRuleType.Plural }
                         },
                         GrammerExeptions = new List<GrammerException>() {
                             new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("child", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "children", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "children", Type = GrammerRuleType.Plural }
                         } },
                     new Word("path", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "paths", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "paths", Type = GrammerRuleType.Plural }
                         } },
                     new Word("vessel", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "vessels", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "vessels", Type = GrammerRuleType.Plural }
                         } },
                     new Word("blood", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "drops of blood", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "drops of blood", Type = GrammerRuleType.Plural }
                         },
                         GrammerExeptions = new List<GrammerException>() {
                             new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("mind", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "minds", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "minds", Type = GrammerRuleType.Plural }
                         } },
                     new Word("rain", WordType.Object) {
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "rain drops", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "rain drops", Type = GrammerRuleType.Plural }
                         },
                         GrammerExeptions = new List<GrammerException>() {
                             new GrammerException() { Type = GrammerExceptionType.NoAnOrA }
                         } },
                     new Word("field", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "fields", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "fields", Type = GrammerRuleType.Plural }
                         } },
                     new Word("heresy", WordType.Object){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "heresies", Type = GrammerRuleType.Pleral }
+                            new GrammerRule() { Data = "heresies", Type = GrammerRuleType.Plural }
                         } },
                     new Word("flow", WordType.Movment){
                         GrammerRules = new List<GrammerRule> {
@@ -227,32 +227,32 @@ namespace PoetryEngine {
                         } },
                     new Word("is like", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "are like", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "are like", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will be like", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("is", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "are", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "are", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will be", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("is reminiscent of", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "are reminiscent of", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "are reminiscent of", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will be reminiscent of", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("is as", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "are as", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "are as", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will be as", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("is fighting", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "are fighting", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "are fighting", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will fight", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("opposes", WordType.Transition){
                         GrammerRules = new List<GrammerRule> {
-                            new GrammerRule() { Data = "oppose", Type = GrammerRuleType.Pleral },
+                            new GrammerRule() { Data = "oppose", Type = GrammerRuleType.Plural },
                             new GrammerRule() { Data = "will oppose", Type = GrammerRuleType.FutureTense }
                         } },
                     new Word("through", WordType.Prepasition),

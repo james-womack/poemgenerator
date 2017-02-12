@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PoetryEngine {
-    class HistoryKeeper<T> {
+    public class HistoryKeeper<T> {
         private List<T> history;
         private int traverser;
         private int limit;
